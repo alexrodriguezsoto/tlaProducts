@@ -1,0 +1,1376 @@
+{
+	"info": {
+		"_postman_id": "896c4581-0fc1-40e9-aa99-35ad745a2398",
+		"name": "qualityProducts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11204499"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "POST_Register_new_user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random 5-digit number",
+									"var zipCode = Math.floor(Math.random() * 100000).toString().padStart(5, '0');",
+									"",
+									"// Set the value of the zipCode variable to the \"zip\" request parameter",
+									"pm.variables.set(\"zip\", zipCode);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    try {",
+									"        pm.expect(pm.response.code).to.equal(200);",
+									"    } catch (err) {",
+									"        console.log(\"Status code is not 200: \" + err);",
+									"        throw new Error(\"Status code is not 200\");",
+									"    }",
+									"});",
+									"",
+									"// Verify response header contains Content-Type",
+									"pm.test(\"Content-Type header is present\", () => {",
+									"  pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"// Verify Content-Type Application/json",
+									"pm.test(\"Verify Content-type is application Json\",() =>{",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"hr\",\n    \"email\": \"qa@hr.com\",\n    \"password\": \"hr\",\n    \"phone\": \"947187520\",\n    \"isAdmin\": true,\n    \"street\": \"Main Street\",\n    \"apartment\": \"Block C\",\n    \"zip\": \"{{zip}}\",\n    \"city\": \"colombo\",\n    \"country\": \"srilanka\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_logIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"qa@hr.com\",\n    \"password\":\"hr\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODA5NTg1OTEsImV4cCI6MTY4MTA0NDk5MX0.gmRz39azvR1R_ci670jw6zDZEHaaK_PzAkCxVNrBDvo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_users_byID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODA2NjczODQsImV4cCI6MTY4MDc1Mzc4NH0.omknWTqAA5V7qvgxiX2nQWrVyHjdoLT21F7YTGcA4GQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/640ab4100365a6646d93e46b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"640ab4100365a6646d93e46b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_users_count",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2Nzg0MjU5NDEsImV4cCI6MTY3ODUxMjM0MX0.WgmAJbqhzZoTeu9hvL8S-R9BbnDtDEcJH0UpTf_rARM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/get/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"get",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_users_byID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2Nzg0MjU5NDEsImV4cCI6MTY3ODUxMjM0MX0.WgmAJbqhzZoTeu9hvL8S-R9BbnDtDEcJH0UpTf_rARM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"isAdmin\": true,\n    \"street\": \"13th Street\",\n    \"apartment\": \"Block C\",\n    \"zip\": \"10870\",\n    \"city\": \"colombo\",\n    \"country\": \"srilanka\",\n    \"_id\": \"640ab4100365a6646d93e46b\",\n    \"name\": \"hr\",\n    \"email\": \"hr123@hr.com\",\n    \"phone\": \"947187520\",\n    \"__v\": 0,\n    \"id\": \"640ab4100365a6646d93e46b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/640ab4100365a6646d93e46b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"640ab4100365a6646d93e46b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_users_byID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2Nzg0MjU5NDEsImV4cCI6MTY3ODUxMjM0MX0.WgmAJbqhzZoTeu9hvL8S-R9BbnDtDEcJH0UpTf_rARM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/640ab4100365a6646d93e46b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"640ab4100365a6646d93e46b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "POST_categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"name\": \"beauty\",\n        \"icon\": \"icon-health\",\n        \"color\": \"#55879\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Mandarins\",\n    \"description\":\"peel good citrus\",\n    \"richDescription\":\"sunkist california mandarins\",\n    \"image\":\"product/image.jpg\",\n    \"brand\":\"Sunkist\",\n    \"price\":4,\n    \"category\":\"640ac84d58bbb367ae3afba9\",\n    \"countInStock\":50,\n    \"rating\":6,\n    \"numReviews\":30,\n    \"isFeatured\":true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"name\": \"beauty 1\",\n        \"icon\": \"icon-health\",\n        \"color\": \"#55880\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/categories/6428dd75866eb6843db39274",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"6428dd75866eb6843db39274"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Mandarins\",\n    \"description\":\"peel good citrus\",\n    \"richDescription\":\"sunkist california mandarins\",\n    \"image\":\"product/image.jpg\",\n    \"brand\":\"Sunkist\",\n    \"price\":4,\n    \"category\":\"640ac84d58bbb367ae3afba9\",\n    \"countInStock\":50,\n    \"rating\":6,\n    \"numReviews\":30,\n    \"isFeatured\":true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/categories/6428de26866eb6843db39279",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"6428de26866eb6843db39279"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "POST_products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mandarins",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "peel good citrus",
+									"type": "text"
+								},
+								{
+									"key": "richDescription",
+									"value": "sunkist California Mandarin",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/alexrodriguez/Documents/eshopImages/mandarins.jpg"
+								},
+								{
+									"key": "brand",
+									"value": "sunkist",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6428dd75866eb6843db39274",
+									"type": "text"
+								},
+								{
+									"key": "countInStock",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "numReviews",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "isFeatured",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_single_product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products/6428f4f523395b0a52c3b258",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"6428f4f523395b0a52c3b258"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_single_product_counts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products/get/featured/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"get",
+								"featured",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Mandarinss 1\",\n    \"description\":\"peel good citrus\",\n    \"richDescription\":\"sunkist california mandarins\",\n    \"image\":\"https://unsplash.com/photos/taW61V8E4Fk\",\n    \"brand\":\"Sunkist\",\n    \"price\":4,\n    \"category\":\"6428dd75866eb6843db39274\",\n    \"countInStock\":50,\n    \"rating\":6,\n    \"numReviews\":30,\n    \"isFeatured\":true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products/6428f4f523395b0a52c3b258",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"6428f4f523395b0a52c3b258"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products/6428ebcc866eb6843db39286",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"6428ebcc866eb6843db39286"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_GalleryImage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "images",
+									"type": "file",
+									"src": "/Users/alexrodriguez/Documents/eshopImages/mandarins.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products/gallery-images/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"gallery-images",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "POST_orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"orderItems\":[\n\t\t{\n\t\t\t\"quantity\": 3,\n\t\t\t\"product\" : \"6428f4f523395b0a52c3b258\"\n\t\t},\n\t\t\t{\n\t\t\t\"quantity\": 2,\n\t\t\t\"product\" : \"6428f4f523395b0a52c3b258\"\n\t\t}\n\t],\n\t\"shippingAddress1\" : \"No 45,Park Street\",\n\t\"shippingAddress2\" : \"No 46,Main Street\",\n\t\"city\" : \"Colombo\",\n\t\"zip\" : \"10600t\",\n\t\"country\" : \"Sri Lanka\",\n\t\"phone\" : \"+94717185748\",\n\t\"user\" : \"640a5cdfd176655fc960d3d5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mandarins",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "peel good citrus",
+									"type": "text"
+								},
+								{
+									"key": "richDescription",
+									"value": "sunkist California Mandarin",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/alexrodriguez/Documents/eshopImages/mandarins.jpg"
+								},
+								{
+									"key": "brand",
+									"value": "sunkist",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6428dd75866eb6843db39274",
+									"type": "text"
+								},
+								{
+									"key": "countInStock",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "numReviews",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "isFeatured",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_single_orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mandarins",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "peel good citrus",
+									"type": "text"
+								},
+								{
+									"key": "richDescription",
+									"value": "sunkist California Mandarin",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/alexrodriguez/Documents/eshopImages/mandarins.jpg"
+								},
+								{
+									"key": "brand",
+									"value": "sunkist",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6428dd75866eb6843db39274",
+									"type": "text"
+								},
+								{
+									"key": "countInStock",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "numReviews",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "isFeatured",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders/6428fd1a95e2af0b65f828ea",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"6428fd1a95e2af0b65f828ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_order_count",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mandarins",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "peel good citrus",
+									"type": "text"
+								},
+								{
+									"key": "richDescription",
+									"value": "sunkist California Mandarin",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/alexrodriguez/Documents/eshopImages/mandarins.jpg"
+								},
+								{
+									"key": "brand",
+									"value": "sunkist",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6428dd75866eb6843db39274",
+									"type": "text"
+								},
+								{
+									"key": "countInStock",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "numReviews",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "isFeatured",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders/get/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"get",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_total_sales",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mandarins",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "peel good citrus",
+									"type": "text"
+								},
+								{
+									"key": "richDescription",
+									"value": "sunkist California Mandarin",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/alexrodriguez/Documents/eshopImages/mandarins.jpg"
+								},
+								{
+									"key": "brand",
+									"value": "sunkist",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6428dd75866eb6843db39274",
+									"type": "text"
+								},
+								{
+									"key": "countInStock",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "numReviews",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "isFeatured",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders/get/totalsales",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"get",
+								"totalsales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_userorders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mandarins",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "peel good citrus",
+									"type": "text"
+								},
+								{
+									"key": "richDescription",
+									"value": "sunkist California Mandarin",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/alexrodriguez/Documents/eshopImages/mandarins.jpg"
+								},
+								{
+									"key": "brand",
+									"value": "sunkist",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6428dd75866eb6843db39274",
+									"type": "text"
+								},
+								{
+									"key": "countInStock",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "numReviews",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "isFeatured",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders/get/userorders/640a5cdfd176655fc960d3d5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"get",
+								"userorders",
+								"640a5cdfd176655fc960d3d5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_single_order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBhYjQxZjAzNjVhNjY0NmQ5M2U0NmQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODAzNzg2MTgsImV4cCI6MTY4MDQ2NTAxOH0.LezZeitHtCV8rBGJGfy6lYgEyNdKnXPGYNmHz4B0Pjs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\":\"shipped\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders/6428fd1a95e2af0b65f828ea",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"6428fd1a95e2af0b65f828ea"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
